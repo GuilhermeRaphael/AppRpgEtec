@@ -23,9 +23,30 @@ namespace AppRpgEtec.ViewModels.Personagens
             _ = ObterPersonagens();
 
             NovoPersonagemCommand = new Command(async () => { await ExibirCadastroPersonagem(); });
+            RemoverPersonagemCommand = new Command<Personagem>(async (Personagem p) => { await RemoverPersonagem(p); });
         }
 
-        public ICommand NovoPersonagemCommand { get; } 
+        public ICommand NovoPersonagemCommand { get; }
+        public ICommand RemoverPersonagemCommand { get; set; }
+
+        private Personagem personagemSelecionado;
+
+        public Personagem PersonagemSelecionado
+        {
+            get
+            {
+                return personagemSelecionado;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    personagemSelecionado = value;
+
+                    Shell.Current.GoToAsync($"cadPersonagemView?pId={personagemSelecionado.Id}");
+                }
+            }
+        }
 
         public async Task ObterPersonagens()
         {
@@ -49,6 +70,25 @@ namespace AppRpgEtec.ViewModels.Personagens
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Ops", ex.Message + "Detalhes" + ex.InnerException, "OK");
+            }
+        }
+        public async Task RemoverPersonagem(Personagem p)
+        {
+            try
+            {
+                if (await Application.Current.MainPage
+                    .DisplayAlert("Confirmação", $"Confirma a remoção de {p.Nome}?", "Sim", "Não")) ;
+                {
+                    await pService.DeletePersonagemAsync(p.Id);
+
+                    await Application.Current.MainPage.DisplayAlert("Mensagem", "Personagem removido com sucesso!", "OK");
+
+                    _ = ObterPersonagens();
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Ops", ex.Message + "Detalhes: " + ex.InnerException, "OK");
             }
         }
 
