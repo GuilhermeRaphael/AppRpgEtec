@@ -23,7 +23,7 @@ namespace AppRpgEtec.ViewModels.Armas
             _ = ObterArmas();
 
             NovaArmaCommand = new Command(async () => { await ExibirCadastroArma(); });
-            RemoverArmaCommand = new Command(async (Arma a) => { await RemoverArma(a); });
+            RemoverArmaCommand = new Command<Arma>(async (Arma a) => { await RemoverArma(a); });
         }
 
         public ICommand NovaArmaCommand { get; }
@@ -80,9 +80,9 @@ namespace AppRpgEtec.ViewModels.Armas
                 {
                     await aService.DeleteArmaAsync(a.Id);
 
-                    await Application.Current.MainPage.DisplayAlert("Mensagem", "Personagem removido com sucesso!", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Mensagem", "Arma removido com sucesso!", "OK");
 
-                    _ = ObterArmas();
+                    await ObterArmas();
                 }
             }
             catch (Exception ex)

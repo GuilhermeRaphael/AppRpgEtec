@@ -4,7 +4,7 @@ namespace AppRpgEtec.Views.Personagens;
 
 public partial class ListagemView : ContentPage
 {
-	ListagemPersonagemViewModel viewModel;
+	private readonly ListagemPersonagemViewModel viewModel;
 	public ListagemView()
 	{
 		InitializeComponent();

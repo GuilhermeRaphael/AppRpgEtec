@@ -16,7 +16,7 @@
     <ShellContent
         Title="Armas"
         ContentTemplate="{DataTemplate viewsArmas:ListagemView}"
-        Route="MainPage2"/>
+        Route="listagemArmas"/>
 
 
 </Shell>
