@@ -71,7 +71,7 @@ namespace AppRpgEtec.ViewModels.Usuarios
 
                 if(!string.IsNullOrEmpty(uAutenticado.Token))
                 {
-                    string mensagem = $"Bem Vindo(a) 🤞🤞🤞 {uAutenticado.Username}";
+                    string mensagem = $"Bem Vindo(a) 👀🎉 {uAutenticado.Username}";
 
                     //Guardando dados para o futuro
                     Preferences.Set("UsuarioId", uAutenticado.Id);
