@@ -26,7 +26,7 @@ namespace AppRpgEtec.ViewModels.Personagens
             pService = new PersonagemService(token);
             _ = ObterClasses();
 
-            SalvarCommand = new Command(async () => { await SalvarPersonagem(); });
+            SalvarCommand = new Command(async () => { await SalvarPersonagem(); }, () => ValidarCampos());
             CancelarCommand = new Command(async => CancelarCadastro());
         }
 
@@ -55,6 +55,14 @@ namespace AppRpgEtec.ViewModels.Personagens
             }
         }
 
+        public bool ValidarCampos()
+        {
+            return !string.IsNullOrEmpty(Nome)
+                && CadastroHabilitado
+                && Forca != 0
+                && Defesa != 0;
+        }
+
 
         public int Id
         {
@@ -73,6 +81,7 @@ namespace AppRpgEtec.ViewModels.Personagens
             {
                 nome = value;
                 OnPropertyChanged();
+                ((Command)SalvarCommand).ChangeCanExecute();
             }
         }
         public int PontosVida
@@ -82,6 +91,8 @@ namespace AppRpgEtec.ViewModels.Personagens
             {
                 pontosVida = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(CadastroHabilitado));
+                ((Command)SalvarCommand).ChangeCanExecute();
             }
         }
 
@@ -92,6 +103,7 @@ namespace AppRpgEtec.ViewModels.Personagens
             {
                 forca = value;
                 OnPropertyChanged();
+                ((Command)SalvarCommand).ChangeCanExecute();
             }
         }
 
@@ -102,6 +114,7 @@ namespace AppRpgEtec.ViewModels.Personagens
             {
                 defesa = value;
                 OnPropertyChanged();
+                ((Command)SalvarCommand).ChangeCanExecute();
             }
         }
 
@@ -142,6 +155,14 @@ namespace AppRpgEtec.ViewModels.Personagens
             {
                 derrotas = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public bool CadastroHabilitado
+        {
+            get
+            {
+                return (PontosVida > 0);
             }
         }
 
