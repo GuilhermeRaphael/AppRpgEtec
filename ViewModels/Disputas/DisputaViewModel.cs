@@ -16,6 +16,8 @@ namespace AppRpgEtec.ViewModels.Disputas
 {
     public class DisputaViewModel : BaseViewModel
     {
+        private string narracao;
+        public string Narracao { get; set; } = string.Empty;
         private PersonagemService pService;
         public ObservableCollection<Personagem> PersonagensEncontrados { get; set; }
         public Personagem Atacante { get; set; }
@@ -97,6 +99,8 @@ namespace AppRpgEtec.ViewModels.Disputas
         {
             try
             {
+                DisputaPersonagens = new Disputa();
+                DisputaPersonagens.Narracao = string.Empty;
                 DisputaPersonagens.AtacanteId = Atacante.Id;
                 DisputaPersonagens.OponenteId = Oponente.Id;
                 DisputaPersonagens.HabilidadeId = habilidadeSelecionada.HabilidadeId;
@@ -177,8 +181,10 @@ namespace AppRpgEtec.ViewModels.Disputas
         {
             try
             {
+                DisputaPersonagens = new Disputa();
                 DisputaPersonagens.AtacanteId = Atacante.Id;
                 DisputaPersonagens.OponenteId = Oponente.Id;
+                DisputaPersonagens.Narracao = Narracao;
                 DisputaPersonagens = await dService.PostDisputaComArmaAsync(DisputaPersonagens);
 
                 await Application.Current.MainPage
@@ -211,6 +217,8 @@ namespace AppRpgEtec.ViewModels.Disputas
             {
      
                 ObservableCollection<Personagem> lista = await pService.GetPersonagensAsync();
+                DisputaPersonagens = new Disputa();
+                DisputaPersonagens.Narracao = string.Empty;
                 DisputaPersonagens.ListaIdPersonagens = lista.Select(x => x.Id).ToList();
 
                
